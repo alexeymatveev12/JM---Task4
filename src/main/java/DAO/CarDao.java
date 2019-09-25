@@ -1,7 +1,7 @@
 package DAO;
 
 import model.Car;
-import model.DailyReport;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,7 +29,7 @@ public class CarDao {
 
     public List<Car> getAllCars() {
         Transaction transaction = session.beginTransaction();
-        List<Car> allCars = session.createQuery("FROM Cars").list();
+        List<Car> allCars = session.createQuery("FROM Car").list();
         transaction.commit();
         session.close();
         return allCars;
@@ -51,6 +51,7 @@ public class CarDao {
     public void deleteAllCars(Car car) {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("DELETE FROM Car");
+        query.executeUpdate();
         transaction.commit();
         session.close();
 
