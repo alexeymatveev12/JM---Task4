@@ -1,11 +1,13 @@
 package service;
 
 import DAO.DailyReportDao;
+import model.Car;
 import model.DailyReport;
 import org.hibernate.SessionFactory;
 import util.DBHelper;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 
 public class DailyReportService {
 
@@ -23,13 +25,36 @@ public class DailyReportService {
         }
         return dailyReportService;
     }
-
+//получить все отчёты
     public List<DailyReport> getAllDailyReports() {
-        return new DailyReportDao(sessionFactory.openSession()).getAllDailyReports(); // переименовал в REPORT-S, а надо?
+        return new DailyReportDao(sessionFactory.openSession()).getAllDailyReportsDAO(); // переименовал в REPORT-S, а надо?
+    }
+
+//получить отчёт за сегодня. может быть нулевым
+    public DailyReport getLastReport() {//getLastReport
+        return new DailyReportDao(sessionFactory.openSession()).getTodayDailyReportDAO();
+    }
+
+    //удалить все отчёты
+    public void deleteAllReports() {
+         new DailyReportDao(sessionFactory.openSession()).deleteAllDailyReportsDAO();
     }
 
 
-    public DailyReport getLastReport() {
-        return null;
+    //закрыть старый отчёт - создать новый
+    public void createNewDailyReport() {
+       DailyReport dailyReport = new DailyReport(0L, 0L);
+     //создать отчёт с нулевыми кол-во авто и стоимостьпродажи
+        new DailyReportDao(sessionFactory.openSession()).addTodayDailyReportDAO(dailyReport);
     }
+
+    public void updateLastDailyReport(Car car) {
+        //создать отчёт с нулевыми кол-во авто и стоимостьпродажи
+        //проверка на отсутствие отчётов
+
+           new DailyReportDao(sessionFactory.openSession()).updateTodayDailyReportDAO(car);
+    }
+
+
+
 }

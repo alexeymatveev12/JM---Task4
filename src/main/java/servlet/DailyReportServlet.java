@@ -1,6 +1,7 @@
 package servlet;
 
 import com.google.gson.Gson;
+import service.CarService;
 import service.DailyReportService;
 
 import javax.servlet.ServletException;
@@ -20,12 +21,17 @@ public class DailyReportServlet extends HttpServlet {
         } else if (req.getPathInfo().contains("last")) {
             json = gson.toJson(DailyReportService.getInstance().getLastReport());
         }
-        resp.getWriter().write(json);
-        resp.setStatus(200);
+        resp.getWriter().println(json);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+     //   super.doDelete(req, resp);
+        DailyReportService.getInstance().deleteAllReports(); //удалить все отчёты
+
+        CarService.getInstance().deleteAllCars(); // удалить все авто
+
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }

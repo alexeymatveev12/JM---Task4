@@ -24,8 +24,10 @@ public class Car {
     private Long price;
 
     public Car() {
+    }//default constructor
 
-    }
+    public Car(String brand, String model, String licensePlate) {
+    } //delete
 
     public Car(String brand, String model, String licensePlate, Long price) {
         this.brand = brand;
